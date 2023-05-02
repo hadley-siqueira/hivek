@@ -1,15 +1,23 @@
 #ifndef HIVEK_EMULATOR_H
 #define HIVEK_EMULATOR_H
 
+#include <string>
+#include <vector>
 #include <cstdint>
+#include "opcodes.h"
 
 class Emulator {
     public:
         Emulator();
         ~Emulator();
 
+    public:
+        void read_bin(std::string path);
+
+        void dump_memory();
+
     private:
-        void fetch();
+        void tick();
 
         uint32_t expand(uint32_t inst);
 
@@ -20,9 +28,13 @@ class Emulator {
         uint64_t read_u64(uint64_t addr);
 
     private:
+        std::string hex64(uint64_t value);
+        std::string hex8(uint64_t value);
+
+    private:
         uint64_t ip;
         int64_t regs[32];
-        uint8_t* mem;
+        std::vector<uint8_t> mem;
         uint64_t clock;
 };
 
