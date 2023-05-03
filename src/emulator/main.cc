@@ -6,5 +6,10 @@ int main(int argc, char* argv[]) {
     emulator.read_bin(argv[1]);
     emulator.dump_memory();
 
+    emulator.tick();
+    emulator.tick();
+    emulator.tick();
+    emulator.dump_registers();
+
     return 0;
 }

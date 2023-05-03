@@ -15,9 +15,10 @@ class Emulator {
         void read_bin(std::string path);
 
         void dump_memory();
+        void dump_registers();
+        void tick();
 
     private:
-        void tick();
 
         uint32_t expand(uint32_t inst);
 

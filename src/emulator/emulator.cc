@@ -27,6 +27,13 @@ void Emulator::read_bin(std::string path) {
     }
 
     fs.close();
+
+    for (int i = 0; i < 4 * 4; i += 4) {
+        mem[i + 0] = 0x81;
+        mem[i + 1] = 0x08;
+        mem[i + 2] = 0x40;
+        mem[i + 3] = 0x01;
+    }
 }
 
 void Emulator::dump_memory() {
@@ -41,6 +48,18 @@ void Emulator::dump_memory() {
 
         std::cout << '\n';
     }
+}
+
+void Emulator::dump_registers() {
+    for (int i = 0; i < 32; ++i) {
+        if (i % 4 == 0 && i > 0) {
+            std::cout << '\n';
+        }
+
+        std::cout << i << ": " << hex64(regs[i]) << '\t';
+    }
+
+    std::cout << '\n';
 }
 
 void Emulator::tick() {
@@ -62,7 +81,8 @@ void Emulator::tick() {
     int immd14 = inst & 0x3fff;
 
     regs[0] = 0;
-
+std::cout << inst << std::endl;
+std::cout << opcode << ' ' << ra << ' ' << rb << ' ' << rc << std::endl;
     if (opcode == OP_REG_REG) {
         switch (funct) {
         case F_ADD:
@@ -92,7 +112,7 @@ void Emulator::tick() {
         }
     } else {
         switch (opcode) {
-        case OP_ADDI:
+        case OP_ADDI: // 81084001 = addi r1, r1, 1
             regs[ra] = regs[rb] + immd14;
             ip += size;
             break;
@@ -110,13 +130,18 @@ uint32_t Emulator::expand(uint32_t inst) {
 }
 
 uint64_t Emulator::read_u32(uint64_t addr) {
-    uint64_t value = read_u64(addr);
+    uint32_t value = 0;
 
-    return value & 0xffffffff;
+    value = (value << 8) | (mem[addr + 0] & 0xff);
+    value = (value << 8) | (mem[addr + 1] & 0xff);
+    value = (value << 8) | (mem[addr + 2] & 0xff);
+    value = (value << 8) | (mem[addr + 3] & 0xff);
+
+    return value;
 }
 
 uint64_t Emulator::read_i32(uint64_t addr) {
-    uint64_t tmp = read_u64(addr);
+    uint64_t tmp = read_u32(addr);
     uint64_t value = 0;
 
     if ((tmp >> 31) & 1) {
