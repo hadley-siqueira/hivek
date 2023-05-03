@@ -28,25 +28,59 @@ void Emulator::read_bin(std::string path) {
 
     fs.close();
 
-    for (int i = 0; i < 4 * 4; i += 4) {
-        mem[i + 0] = 0x81;
-        mem[i + 1] = 0x08;
-        mem[i + 2] = 0x40;
-        mem[i + 3] = 0x01;
-    }
+    int i = 0;
+    // addi r1, r1, 1
+    mem[i++] = 0x81;
+    mem[i++] = 0x08;
+    mem[i++] = 0x40;
+    mem[i++] = 0x01;
+
+    mem[i++] = 0x80;
+    mem[i++] = 0x08;
+    mem[i++] = 0x42;
+    mem[i++] = 0x00;
+
+    mem[i++] = 0x80;
+    mem[i++] = 0x08;
+    mem[i++] = 0x42;
+    mem[i++] = 0x00;
 }
 
 void Emulator::dump_memory() {
-    std::cout << "Address             +0 +1 +2 +3 +4 +5 +6 +7 +8 +9 +10 +11 +12 +13 +14 +15\n";
-
     for (int i = 0; i < mem.size(); i += 16) {
-        std::cout << hex64(i) << ": ";
+        std::stringstream ss;
+        ss << hex64(i) << "  ";
 
-        for (int j = 0; j < 16 && i + j < mem.size(); ++j) {
-            std::cout << hex8(mem[i + j]) << ' ';
+        for (int j = 0; j < 8 && i + j < mem.size(); ++j) {
+            ss << hex8(mem[i + j]) << ' ';
         }
 
-        std::cout << '\n';
+        ss << ' ';
+
+        for (int j = 8; j < 16 && i + j < mem.size(); ++j) {
+            ss << hex8(mem[i + j]) << ' ';
+        }
+
+        ss << ' ';
+
+        int col = ss.str().size();
+        while (col < 68) {
+            ++col;
+            ss << ' ';
+        }
+
+        ss << '|';
+        for (int j = 0; j < 16 && i + j < mem.size(); ++j) {
+            if (mem[i + j] >= 32 && mem[i + j] <= 126) {
+                ss << ((char) (mem[i + j]));
+            } else {
+                ss << '.';
+            }
+        }
+        ss << '|';
+
+        ss << '\n';
+        std::cout << ss.str();
     }
 }
 
@@ -56,7 +90,13 @@ void Emulator::dump_registers() {
             std::cout << '\n';
         }
 
-        std::cout << i << ": " << hex64(regs[i]) << '\t';
+        std::cout << i << ": ";
+
+        if (i < 10) {
+            std::cout << ' ';
+        }
+
+        std::cout << hex64(regs[i]) << '\t';
     }
 
     std::cout << '\n';
@@ -170,8 +210,6 @@ uint64_t Emulator::read_u64(uint64_t addr) {
 std::string Emulator::hex64(uint64_t value) {
     std::stringstream ss;
 
-    ss << "0x";
-
     for (int i = 60; i >= 0; i -= 4) {
         int k = (value >> i) & 0xf;
 
@@ -187,8 +225,6 @@ std::string Emulator::hex64(uint64_t value) {
 
 std::string Emulator::hex8(uint64_t value) {
     std::stringstream ss;
-
-    //ss << "0x";
 
     for (int i = 4; i >= 0; i -= 4) {
         int k = (value >> i) & 0xf;
