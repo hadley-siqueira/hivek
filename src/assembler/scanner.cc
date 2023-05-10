@@ -1,3 +1,4 @@
+#include <iostream>
 #include "scanner.h"
 
 Scanner::Scanner() {
@@ -6,8 +7,10 @@ Scanner::Scanner() {
 
     tokens_map["add"] = TK_ADD;
     tokens_map["beq"] = TK_BEQ;
-    tokens_map[","] = TK_BEQ;
-    tokens_map["."] = TK_BEQ;
+    tokens_map[","] = TK_COMMA;
+    tokens_map["."] = TK_DOT;
+    tokens_map[":"] = TK_COLON;
+    tokens_map[";"] = TK_SEMICOLON;
     tokens_map["EOF"] = TK_EOF;
 }
 
@@ -20,6 +23,7 @@ std::vector<Token> Scanner::read(std::string path) {
         get_token();
     }
 
+    start_token();
     create_token(TK_EOF);
     return tokens;
 }
@@ -34,9 +38,11 @@ void Scanner::get_token() {
     } else if (is_num(c)) {
 
     } else if (is_punct(c)) {
-
+        get_punct();
     } else if (c == '"') {
 
+    } else if (is_whitespace(c)) {
+        advance();
     }
 }
 
@@ -47,6 +53,17 @@ void Scanner::get_word() {
         advance();
     }
 
+    create_token();
+}
+
+void Scanner::get_punct() {
+    start_token();
+
+    while (is_punct(c)) {
+        advance();
+    }
+
+    get_punct_kind();
     create_token();
 }
 
@@ -73,11 +90,11 @@ void Scanner::create_token(TokenKind kind) {
 }
 
 void Scanner::advance() {
+    lexeme += c;
     file.get(c);
 
     if (c != '\n') {
         ++column;
-        lexeme += c;
     } else {
         line += 1;
         column = 1;
@@ -88,6 +105,17 @@ void Scanner::start_token() {
     token_line = line;
     token_column = column;
     lexeme = "";
+}
+
+void Scanner::start_token(char ch) {
+    start_token();
+    lexeme += ch;
+}
+
+void Scanner::get_punct_kind() {
+    while (tokens_map.count(lexeme) == 0) {
+        lexeme.pop_back();
+    }
 }
 
 TokenKind Scanner::get_token_kind() {
@@ -113,6 +141,9 @@ bool Scanner::is_alphanum(char c) {
 }
 
 bool Scanner::is_punct(char c) {
-    return c == '.' || c == ',' || c == '%';
+    return c == '.' || c == ',' || c == '%' || c == ':' || c == ';';
 }
 
+bool Scanner::is_whitespace(char c) {
+    return c == ' ' || c == '\t' || c == '\n';
+}

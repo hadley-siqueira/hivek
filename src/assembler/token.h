@@ -9,6 +9,8 @@ typedef enum TokenKind {
     TK_BEQ,
     TK_COMMA,
     TK_DOT,
+    TK_SEMICOLON,
+    TK_COLON,    
     TK_EOF
 } TokenKind;
 

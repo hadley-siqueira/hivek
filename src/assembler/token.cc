@@ -37,6 +37,6 @@ void Token::set_lexeme(std::string value) {
 std::string Token::to_str() {
     std::stringstream ss;
 
-    ss << "(" << kind << ", " << line << ", " << column << ", " << lexeme << ")";
+    ss << "(" << kind << ", " << line << ", " << column << ", '" << lexeme << "')";
     return ss.str();
 }

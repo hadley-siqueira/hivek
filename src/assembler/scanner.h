@@ -18,17 +18,22 @@ class Scanner {
         bool has_next();
         void get_token();
         void get_word();
+        void get_punct();
 
         void create_token();
         void create_token(TokenKind kind);
         void advance();
         void start_token();
+        void start_token(char ch);
+
+        void get_punct_kind();
         TokenKind get_token_kind();
 
         bool is_alpha(char c);
         bool is_num(char c);
         bool is_alphanum(char c);
         bool is_punct(char c);
+        bool is_whitespace(char c);
 
     private:
         std::vector<Token> tokens;
