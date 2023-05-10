@@ -1,10 +1,10 @@
 #include <sstream>
 #include <fstream>
 #include "assembler.h"
-#include "opcode.h"
+#include "../opcodes/opcodes.h"
 
 void Assembler::parse_instruction(std::string& inst) {
-    std::stringstream ss(inst);
+/*    std::stringstream ss(inst);
     std::string opcode;
     std::string op1;
     std::string op2;
@@ -15,11 +15,11 @@ void Assembler::parse_instruction(std::string& inst) {
     if (opcode == "add") {
         ss >> op1 >> op2 >> op3;
         generate_format1(OP_REG_REG, op1, op2, op3, F_ADD);
-    }
+    }*/
 }
 
-void Assembler::generate_format1(int opcode, int ra, int rb, int rc, int funct) {
-    uint32_t inst = 1;
+uint32_t Assembler::generate_format1(int opcode, int ra, int rb, int rc, int funct) {
+/*    uint32_t inst = 1;
 
     inst = (inst << 1) | (opcode & 0x7f);
     inst = (inst << 7) | (ra & 0x1f);
@@ -27,7 +27,8 @@ void Assembler::generate_format1(int opcode, int ra, int rb, int rc, int funct) 
     inst = (inst << 5) | (rc & 0x1f);
     inst = (inst << 5) | (funct & 0xff);
 
-    return inst;
+    return inst;*/
+    return 0;
 }
 
 /*
