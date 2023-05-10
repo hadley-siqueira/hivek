@@ -6,6 +6,7 @@
 
 #define OP_LD 2
 #define OP_SD 3
+#define OP_BEQ 4
 
 #define F_ADD 0
 #define F_SUB 1

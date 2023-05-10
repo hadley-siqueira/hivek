@@ -123,6 +123,8 @@ void Emulator::tick() {
     int rc = (inst >> 9) & 0x1f;
     int funct = inst & 0xff;
     int immd14 = inst & 0x3fff;
+    int64_t immd14_64 = (immd14 >> 13) & 0x1 ? (~0LL << 14) | immd14 : immd14;
+    int64_t immd14_64s = immd14_64 << 1;
 
     regs[0] = 0;
 std::cout << inst << std::endl;
@@ -157,7 +159,7 @@ std::cout << opcode << ' ' << ra << ' ' << rb << ' ' << rc << std::endl;
     } else {
         switch (opcode) {
         case OP_ADDI: // 81084001 = addi r1, r1, 1
-            regs[ra] = regs[rb] + immd14;
+            regs[ra] = regs[rb] + immd14_64;
             ip += size;
             break;
 
@@ -165,6 +167,16 @@ std::cout << opcode << ' ' << ra << ' ' << rb << ' ' << rc << std::endl;
             regs[ra] = read_u64(regs[rb] + immd14);
             ip += size;
             break;
+
+        case OP_BEQ:
+            if (regs[ra] == regs[rb]) {
+                ip += immd14_64s;
+            } else {
+                ip += size;
+            }
+
+            break;
+            
         }
     }
 }

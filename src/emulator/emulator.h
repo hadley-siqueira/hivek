@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 #include <cstdint>
-#include "opcodes.h"
+#include "../opcodes/opcodes.h"
 
 class Emulator {
     public:

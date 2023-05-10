@@ -1,0 +1,7 @@
+Instruction format
+
+zooo oooo aaaa abbb bbcc ccci iiii iiii
+zooo oooo aaaa abbb bbii iiii iiii iiii
+zooo oooo aaaa aiii iiii iiii iiii iiii
+zooo oooo iiii iiii iiii iiii iiii iiii
+
