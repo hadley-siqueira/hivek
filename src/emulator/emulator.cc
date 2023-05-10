@@ -13,20 +13,24 @@ Emulator::Emulator() {
 }
 
 Emulator::~Emulator() {
-
+    delete[] mem;
 }
 
 void Emulator::read_bin(std::string path) {
     char c;
     std::ifstream fs;
+    std::vector<uint8_t> tmp;
 
     fs.open(path);
 
     while (fs.get(c)) {
-        mem.push_back(c & 0x0ff);
+        tmp.push_back(c & 0x0ff);
     }
 
     fs.close();
+    mem = new uint8_t[tmp.size()];
+    mem_size = tmp.size();
+    ip = (uint64_t) mem;
 
     int i = 0;
     // addi r1, r1, 1
@@ -47,17 +51,17 @@ void Emulator::read_bin(std::string path) {
 }
 
 void Emulator::dump_memory() {
-    for (int i = 0; i < mem.size(); i += 16) {
+    for (int i = 0; i < mem_size; i += 16) {
         std::stringstream ss;
         ss << hex64(i) << "  ";
 
-        for (int j = 0; j < 8 && i + j < mem.size(); ++j) {
+        for (int j = 0; j < 8 && i + j < mem_size; ++j) {
             ss << hex8(mem[i + j]) << ' ';
         }
 
         ss << ' ';
 
-        for (int j = 8; j < 16 && i + j < mem.size(); ++j) {
+        for (int j = 8; j < 16 && i + j < mem_size; ++j) {
             ss << hex8(mem[i + j]) << ' ';
         }
 
@@ -70,7 +74,7 @@ void Emulator::dump_memory() {
         }
 
         ss << '|';
-        for (int j = 0; j < 16 && i + j < mem.size(); ++j) {
+        for (int j = 0; j < 16 && i + j < mem_size; ++j) {
             if (mem[i + j] >= 32 && mem[i + j] <= 126) {
                 ss << ((char) (mem[i + j]));
             } else {
@@ -171,11 +175,12 @@ uint32_t Emulator::expand(uint32_t inst) {
 
 uint64_t Emulator::read_u32(uint64_t addr) {
     uint32_t value = 0;
+    uint8_t* ptr = (uint8_t*) addr;
 
-    value = (value << 8) | (mem[addr + 0] & 0xff);
-    value = (value << 8) | (mem[addr + 1] & 0xff);
-    value = (value << 8) | (mem[addr + 2] & 0xff);
-    value = (value << 8) | (mem[addr + 3] & 0xff);
+    value = (value << 8) | (ptr[0] & 0xff);
+    value = (value << 8) | (ptr[1] & 0xff);
+    value = (value << 8) | (ptr[2] & 0xff);
+    value = (value << 8) | (ptr[3] & 0xff);
 
     return value;
 }
@@ -194,15 +199,16 @@ uint64_t Emulator::read_i32(uint64_t addr) {
 
 uint64_t Emulator::read_u64(uint64_t addr) {
     uint64_t value = 0;
+    uint8_t* ptr = (uint8_t*) addr;
 
-    value = (value << 8) | (mem[addr + 0] & 0xff);
-    value = (value << 8) | (mem[addr + 1] & 0xff);
-    value = (value << 8) | (mem[addr + 2] & 0xff);
-    value = (value << 8) | (mem[addr + 3] & 0xff);
-    value = (value << 8) | (mem[addr + 4] & 0xff);
-    value = (value << 8) | (mem[addr + 5] & 0xff);
-    value = (value << 8) | (mem[addr + 6] & 0xff);
-    value = (value << 8) | (mem[addr + 7] & 0xff);
+    value = (value << 8) | (ptr[0] & 0xff);
+    value = (value << 8) | (ptr[1] & 0xff);
+    value = (value << 8) | (ptr[2] & 0xff);
+    value = (value << 8) | (ptr[3] & 0xff);
+    value = (value << 8) | (ptr[4] & 0xff);
+    value = (value << 8) | (ptr[5] & 0xff);
+    value = (value << 8) | (ptr[6] & 0xff);
+    value = (value << 8) | (ptr[7] & 0xff);
 
     return value;
 }

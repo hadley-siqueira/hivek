@@ -35,7 +35,8 @@ class Emulator {
     private:
         uint64_t ip;
         int64_t regs[32];
-        std::vector<uint8_t> mem;
+        uint8_t* mem;
+        size_t mem_size;
         uint64_t clock;
 };
 
