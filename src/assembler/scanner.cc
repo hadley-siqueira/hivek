@@ -6,15 +6,21 @@ Scanner::Scanner() {
 
     tokens_map["add"] = TK_ADD;
     tokens_map["beq"] = TK_BEQ;
+    tokens_map[","] = TK_BEQ;
+    tokens_map["."] = TK_BEQ;
+    tokens_map["EOF"] = TK_EOF;
 }
 
 std::vector<Token> Scanner::read(std::string path) {
     file.open(path);
 
+    advance();
+
     while (has_next()) {
         get_token();
     }
 
+    create_token(TK_EOF);
     return tokens;
 }
 
@@ -35,18 +41,24 @@ void Scanner::get_token() {
 }
 
 void Scanner::get_word() {
-    TokenKind kind = TK_ID;
-
     start_token();
 
     while (is_alphanum(c)) {
         advance();
     }
 
-    kind = get_token_kind();
+    create_token();
+}
 
+void Scanner::create_token() {
+    Token token;
 
-    create_token(kind);
+    token.set_kind(get_token_kind());
+    token.set_line(line);
+    token.set_column(column);
+    token.set_lexeme(lexeme);
+
+    tokens.push_back(token);
 }
 
 void Scanner::create_token(TokenKind kind) {
@@ -56,8 +68,6 @@ void Scanner::create_token(TokenKind kind) {
     token.set_line(line);
     token.set_column(column);
     token.set_lexeme(lexeme);
-
-    lexeme = "";
 
     tokens.push_back(token);
 }

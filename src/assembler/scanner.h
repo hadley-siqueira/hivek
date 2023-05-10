@@ -19,6 +19,7 @@ class Scanner {
         void get_token();
         void get_word();
 
+        void create_token();
         void create_token(TokenKind kind);
         void advance();
         void start_token();

@@ -1,3 +1,4 @@
+#include <sstream>
 #include "token.h"
 
 TokenKind Token::get_kind() {
@@ -30,4 +31,12 @@ std::string Token::get_lexeme() {
 
 void Token::set_lexeme(std::string value) {
     lexeme = value;
+}
+
+
+std::string Token::to_str() {
+    std::stringstream ss;
+
+    ss << "(" << kind << ", " << line << ", " << column << ", " << lexeme << ")";
+    return ss.str();
 }

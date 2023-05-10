@@ -8,7 +8,8 @@ typedef enum TokenKind {
     TK_ADD,
     TK_BEQ,
     TK_COMMA,
-    TK_DOT
+    TK_DOT,
+    TK_EOF
 } TokenKind;
 
 class Token {
@@ -24,6 +25,8 @@ class Token {
 
         std::string get_lexeme();
         void set_lexeme(std::string value);
+
+        std::string to_str();
 
     private:
         TokenKind kind;
