@@ -3,7 +3,7 @@
 int main(int argc, char* argv[]) {
     Emulator emulator;
 
-    emulator.read_bin(argv[1]);
+    emulator.read_txt(argv[1]);
     emulator.dump_memory();
 
     emulator.tick();

@@ -5,23 +5,12 @@ Scanner::Scanner() {
     line = 1;
     column = 1;
 
-    tokens_map["add"] = TK_ADD;
-    tokens_map["beq"] = TK_BEQ;
     tokens_map[","] = TK_COMMA;
     tokens_map["."] = TK_DOT;
     tokens_map[":"] = TK_COLON;
     tokens_map[";"] = TK_SEMICOLON;
     tokens_map["%"] = TK_MODULO;
     tokens_map[""] = TK_MODULO;
-
-    tokens_map[".ascii"] = TK_ASCII;
-    tokens_map[".asciiz"] = TK_ASCIIZ;
-    tokens_map[".byte"] = TK_BYTE;
-    tokens_map[".half"] = TK_HALF;
-    tokens_map[".word"] = TK_WORD;
-    tokens_map[".long"] = TK_LONG;
-    tokens_map[".float"] = TK_FLOAT;
-    tokens_map[".double"] = TK_DOUBLE;
 
     tokens_map["EOF"] = TK_EOF;
 }
@@ -47,8 +36,6 @@ bool Scanner::has_next() {
 void Scanner::get_token() {
     if (is_alpha(c)) {
         get_word();
-    } else if (c == '.') {
-        get_directive();
     } else if (is_num(c)) {
         get_number();
     } else if (is_punct(c)) {
@@ -62,17 +49,6 @@ void Scanner::get_token() {
 
 void Scanner::get_word() {
     start_token();
-
-    while (is_alphanum(c)) {
-        advance();
-    }
-
-    create_token();
-}
-
-void Scanner::get_directive() {
-    start_token();
-    advance();
 
     while (is_alphanum(c)) {
         advance();
@@ -177,7 +153,7 @@ bool Scanner::is_alphanum(char c) {
 }
 
 bool Scanner::is_punct(char c) {
-    return c == ',' || c == '%' || c == ':' || c == ';';
+    return c == ',' || c == '%' || c == ':' || c == ';' || c == '.';
 }
 
 bool Scanner::is_whitespace(char c) {

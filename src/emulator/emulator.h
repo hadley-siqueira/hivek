@@ -13,6 +13,7 @@ class Emulator {
 
     public:
         void read_bin(std::string path);
+        void read_txt(std::string path);
 
         void dump_memory();
         void dump_registers();

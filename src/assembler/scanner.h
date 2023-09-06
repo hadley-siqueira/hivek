@@ -18,7 +18,6 @@ class Scanner {
         bool has_next();
         void get_token();
         void get_word();
-        void get_directive();
         void get_punct();
         void get_number();
 

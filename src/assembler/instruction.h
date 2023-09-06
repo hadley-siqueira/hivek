@@ -10,7 +10,9 @@ class Instruction {
         char funct;
         char op1;
         char op2;
-        int op3;
+        char op3;
+        int size;
+        int offset;
 };
 
 #endif

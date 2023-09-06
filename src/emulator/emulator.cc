@@ -32,22 +32,50 @@ void Emulator::read_bin(std::string path) {
     mem_size = tmp.size();
     ip = (uint64_t) mem;
 
-    int i = 0;
-    // addi r1, r1, 1
-    mem[i++] = 0x81;
-    mem[i++] = 0x08;
-    mem[i++] = 0x40;
-    mem[i++] = 0x01;
+    for (int i = 0; i < tmp.size(); ++i) {
+        mem[i] = tmp[i];
+    }
+}
 
-    mem[i++] = 0x80;
-    mem[i++] = 0x08;
-    mem[i++] = 0x42;
-    mem[i++] = 0x00;
+void Emulator::read_txt(std::string path) {
+    char c;
+    std::ifstream fs;
+    std::vector<uint8_t> tmp;
 
-    mem[i++] = 0x80;
-    mem[i++] = 0x08;
-    mem[i++] = 0x42;
-    mem[i++] = 0x00;
+    fs.open(path);
+
+    int byte = 0;
+    int bit_count = 0;
+    mem = new uint8_t[tmp.size()];
+
+    while (fs.get(c)) {
+        if (c != '0' && c != '1') {
+            continue;
+        }
+
+        byte = byte << 1;
+        ++bit_count;
+
+        if (c == '1') {
+            byte = byte | 1;
+        }
+
+        if (bit_count == 8) {
+            tmp.push_back(byte);
+            byte = 0;
+            bit_count = 0;
+        }
+    }
+
+    fs.close();
+
+    mem = new uint8_t[tmp.size()];
+    mem_size = tmp.size();
+    ip = (uint64_t) mem;
+
+    for (int i = 0; i < tmp.size(); ++i) {
+        mem[i] = tmp[i];
+    }
 }
 
 void Emulator::dump_memory() {
@@ -127,8 +155,7 @@ void Emulator::tick() {
     int64_t immd14_64s = immd14_64 << 1;
 
     regs[0] = 0;
-std::cout << inst << std::endl;
-std::cout << opcode << ' ' << ra << ' ' << rb << ' ' << rc << std::endl;
+
     if (opcode == OP_REG_REG) {
         switch (funct) {
         case F_ADD:

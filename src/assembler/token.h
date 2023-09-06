@@ -6,22 +6,12 @@
 typedef enum TokenKind {
     TK_ID,
     TK_NUMBER,
-    TK_ADD,
-    TK_BEQ,
+    TK_STRING,
     TK_COMMA,
     TK_DOT,
     TK_SEMICOLON,
     TK_COLON,
     TK_MODULO,
-
-    TK_ASCII,
-    TK_ASCIIZ,
-    TK_BYTE,
-    TK_HALF,
-    TK_WORD,
-    TK_LONG,
-    TK_FLOAT,
-    TK_DOUBLE,
 
     TK_EOF
 } TokenKind;
