@@ -3,20 +3,22 @@
 
 #include <vector>
 
+#include "instruction.h"
 #include "token.h"
+#include "module.h"
 
 class Parser {
 public:
-    void parse(std::string path);
+    Module* parse(std::string path);
 
 private:
-    void parse_module();
+    Module* parse_module();
 
-    void parse_directive();
-    void parse_byte_directive();
+    Instruction* parse_directive();
+    Instruction* parse_byte_directive();
     void parse_string_directive();
 
-    void parse_byte_literal();
+    Token parse_byte_literal();
 
 private:
     bool match(int kind);
@@ -32,30 +34,5 @@ private:
     Token matched;
     int idx;
 };
-
-/*    void parse() {
-        switch (token.get_kind()) {
-        case TK_ADD:
-            
-        }
-    }
-
-    // add %0, %1, %2
-    void parse_add() {
-        expect(TK_ADD);
-
-        int rc = parse_reg();
-        expect(TK_COMMA);
-
-        int ra = parse_reg();
-        expect(TK_COMMA);
-
-        int rb = parse_reg();
-    }
-
-    void parse_reg() {
-
-        return 
-    }*/
 
 #endif

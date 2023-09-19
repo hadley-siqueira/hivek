@@ -22,5 +22,8 @@ void test_parser(int argc, char** argv) {
 int main(int argc, char** argv) {
 
     test_parser(argc, argv);
+    Assembler as;
+
+    as.generate_output("a");
     return 0;
 }

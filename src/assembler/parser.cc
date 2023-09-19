@@ -2,8 +2,10 @@
 
 #include "parser.h"
 #include "scanner.h"
+#include "module.h"
+#include "byte_directive.h"
 
-void Parser::parse(std::string path) {
+Module* Parser::parse(std::string path) {
     Scanner sc;
 
     idx = 0;
@@ -12,17 +14,26 @@ void Parser::parse(std::string path) {
     for (int i = 0; i < tokens.size(); ++i) {
         std::cout << tokens[i].to_str() << '\n';
     }
+
+    return parse_module();
 }
 
-void Parser::parse_module() {
+Module* Parser::parse_module() {
+    Module* mod = new Module();
+
     while (true) {
         if (lookahead(TK_DOT)) {
-            parse_directive();
+            mod->add_to_section(parse_directive());
+        } else {
+            break;
         }
     }
+
+    return mod;
 }
 
-void Parser::parse_directive() {
+Instruction* Parser::parse_directive() {
+    Instruction* inst = nullptr;
     expect(TK_DOT);
 
     if (lookahead("byte")) {
@@ -30,16 +41,21 @@ void Parser::parse_directive() {
     } else if (lookahead("string")) {
         parse_string_directive();
     }
+
+    return inst;
 }
 
-void Parser::parse_byte_directive() {
+Instruction* Parser::parse_byte_directive() {
+    ByteDirective* dir = new ByteDirective();
     expect("byte");
 
-    parse_byte_literal();
+    dir->add_value(parse_byte_literal());
 
     while (match(TK_COMMA)) {
-        parse_byte_literal();
+        dir->add_value(parse_byte_literal());
     }
+
+    return dir;
 }
 
 void Parser::parse_string_directive() {
@@ -47,8 +63,9 @@ void Parser::parse_string_directive() {
     expect(TK_STRING);
 }
 
-void Parser::parse_byte_literal() {
-
+Token Parser::parse_byte_literal() {
+    expect(TK_NUMBER);
+    return matched;
 }
 
 void Parser::expect(int kind) {

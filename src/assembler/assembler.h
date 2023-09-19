@@ -3,14 +3,16 @@
 
 #include <cstdint>
 #include "../opcodes/opcodes.h"
+#include "modules.h"
 
 class Assembler {
-    public:
+public:
+    void read(std::string path);
+    void generate_output(std::string path);
 
-    private:
-        void parse_instruction(std::string& inst);
-
-        uint32_t generate_format1(int opcode, int ra, int rb, int rc, int funct);
+private:
+    Module* mod;
+    std::vector<char> output;
 };
 
 #endif
