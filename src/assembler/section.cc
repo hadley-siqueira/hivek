@@ -5,12 +5,12 @@ Section::Section(std::string name) {
     this->name = name;
 }
 
-void Section::add_instruction(Instruction* inst) {
-    instructions.push_back(inst);
+void Section::add_command(Command* cmd) {
+    commands.push_back(cmd);
 }
 
 void Section::write_to(BinaryOutput* value) {
-    for (int i = 0; i < instructions.size(); ++i) {
-        instructions[i]->write_to(value);
+    for (int i = 0; i < commands.size(); ++i) {
+        commands[i]->write_to(value);
     }
 }

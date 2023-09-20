@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-#include "instruction.h"
+#include "command.h"
 #include "binary_output.h"
 
 class Section {
@@ -12,12 +12,12 @@ public:
     Section(std::string name);
 
 public:
-    void add_instruction(Instruction* inst);
+    void add_command(Command* cmd);
     void write_to(BinaryOutput* value);
 
 private:
     std::string name;
-    std::vector<Instruction*> instructions;
+    std::vector<Command*> commands;
 };
 
 #endif

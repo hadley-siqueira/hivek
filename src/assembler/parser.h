@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "instruction.h"
+#include "command.h"
 #include "token.h"
 #include "module.h"
 
@@ -14,8 +14,8 @@ public:
 private:
     Module* parse_module();
 
-    Instruction* parse_directive();
-    Instruction* parse_byte_directive();
+    Command* parse_directive();
+    Command* parse_byte_directive();
     void parse_string_directive();
 
     Token parse_byte_literal();

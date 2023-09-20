@@ -5,7 +5,7 @@
 #include <string>
 
 #include "section.h"
-#include "instruction.h"
+#include "command.h"
 #include "binary_output.h"
 
 class Module {
@@ -13,7 +13,7 @@ public:
     Module();
     
 public:
-    void add_to_section(Instruction* inst);
+    void add_to_section(Command* cmd);
     void write_to(BinaryOutput* value);
 
 private:

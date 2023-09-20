@@ -3,7 +3,7 @@
 #include "parser.h"
 #include "scanner.h"
 #include "module.h"
-#include "byte_directive.h"
+#include "data_directive.h"
 
 Module* Parser::parse(std::string path) {
     Scanner sc;
@@ -32,8 +32,8 @@ Module* Parser::parse_module() {
     return mod;
 }
 
-Instruction* Parser::parse_directive() {
-    Instruction* inst = nullptr;
+Command* Parser::parse_directive() {
+    Command* inst = nullptr;
     expect(TK_DOT);
 
     if (lookahead("byte")) {
@@ -45,8 +45,8 @@ Instruction* Parser::parse_directive() {
     return inst;
 }
 
-Instruction* Parser::parse_byte_directive() {
-    ByteDirective* dir = new ByteDirective();
+Command* Parser::parse_byte_directive() {
+    DataDirective* dir = new DataDirective(CMD_BYTE_DIRECTIVE);
     expect("byte");
 
     dir->add_value(parse_byte_literal());
