@@ -37,7 +37,7 @@ Instruction* Parser::parse_directive() {
     expect(TK_DOT);
 
     if (lookahead("byte")) {
-        parse_byte_directive();
+        inst = parse_byte_directive();
     } else if (lookahead("string")) {
         parse_string_directive();
     }

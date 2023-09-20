@@ -24,6 +24,8 @@ int main(int argc, char** argv) {
     test_parser(argc, argv);
     Assembler as;
 
-    as.generate_output("a");
+    as.read(argv[1]);
+
+    as.generate_output("out.bin");
     return 0;
 }

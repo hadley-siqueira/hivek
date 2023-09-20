@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "instruction.h"
+#include "binary_output.h"
 
 class Section {
 public:
@@ -12,6 +13,7 @@ public:
 
 public:
     void add_instruction(Instruction* inst);
+    void write_to(BinaryOutput* value);
 
 private:
     std::string name;

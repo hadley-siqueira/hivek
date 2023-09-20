@@ -13,5 +13,6 @@ void Assembler::read(std::string path) {
 void Assembler::generate_output(std::string path) {
     BinaryOutput out;
 
-    out.write("/tmp/test.bin");
+    mod->write_to(&out);
+    out.write(path);
 }

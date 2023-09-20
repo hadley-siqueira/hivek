@@ -4,10 +4,6 @@
 void BinaryOutput::write(std::string path) {
     std::ofstream file(path);
 
-    for (int i = 0; i < 10; ++i) {
-        append(i);
-    }
-
     for (int i = 0; i < bytes.size(); ++i) {
         file << bytes[i];
     }
