@@ -10,7 +10,11 @@ Scanner::Scanner() {
     tokens_map[":"] = TK_COLON;
     tokens_map[";"] = TK_SEMICOLON;
     tokens_map["%"] = TK_MODULO;
-    tokens_map[""] = TK_MODULO;
+    tokens_map["#"] = TK_HASH;
+    tokens_map["<"] = TK_LT;
+    tokens_map[">"] = TK_GT;
+    tokens_map["("] = TK_LPAREN;
+    tokens_map[")"] = TK_RPAREN;
 
     tokens_map["EOF"] = TK_EOF;
 }
@@ -60,9 +64,10 @@ void Scanner::get_word() {
 void Scanner::get_punct() {
     start_token();
 
-    while (is_punct(c)) {
+    // TODO: need to handle punct with more than one char?
+    //while (is_punct(c)) {
         advance();
-    }
+    //}
 
     get_punct_kind();
     create_token();
@@ -153,7 +158,8 @@ bool Scanner::is_alphanum(char c) {
 }
 
 bool Scanner::is_punct(char c) {
-    return c == ',' || c == '%' || c == ':' || c == ';' || c == '.';
+    return c == ',' || c == '%' || c == ':' || c == ';' || 
+           c == '.' || c == '(' || c == ')' || c == '#';
 }
 
 bool Scanner::is_whitespace(char c) {

@@ -16,9 +16,16 @@ private:
 
     Command* parse_directive();
     Command* parse_byte_directive();
+    Command* parse_int_directive();
+    Command* parse_label_or_instruction();
+    Command* parse_instruction(std::string op);
+    Command* parse_instruction_reg_reg_reg(std::string op);
     void parse_string_directive();
 
     Token parse_byte_literal();
+    Token parse_int_literal();
+    std::string parse_id();
+    std::string parse_id_list();
 
 private:
     bool match(int kind);

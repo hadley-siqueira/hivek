@@ -1,3 +1,4 @@
-.byte 20
-.byte 0, 10, 20, 64, 54, 0
-.byte 255, 255, 255
+std.io.File#init(int):
+std.io.println(std.io.String):
+.int 1024, 19114957
+

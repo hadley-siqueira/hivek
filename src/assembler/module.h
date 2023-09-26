@@ -15,6 +15,7 @@ public:
 public:
     void add_to_section(Command* cmd);
     void write_to(BinaryOutput* value);
+    void set_section(std::string section);
 
 private:
     std::map<std::string, Section*> sections;

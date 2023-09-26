@@ -4,7 +4,8 @@
 #include "binary_output.h"
 
 enum CommandKind {
-    CMD_BYTE_DIRECTIVE
+    CMD_BYTE_DIRECTIVE,
+    CMD_INT_DIRECTIVE,
 };
 
 class Command {

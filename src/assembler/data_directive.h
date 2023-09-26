@@ -14,6 +14,7 @@ public:
     void add_value(Token token);
     void write_to(BinaryOutput* value);
     void write_byte_directive(BinaryOutput* value);
+    void write_int_directive(BinaryOutput* value);
 
 private:
     std::vector<Token> values;

@@ -12,6 +12,11 @@ typedef enum TokenKind {
     TK_SEMICOLON,
     TK_COLON,
     TK_MODULO,
+    TK_HASH,
+    TK_LT,
+    TK_GT,
+    TK_LPAREN,
+    TK_RPAREN,
 
     TK_EOF
 } TokenKind;
