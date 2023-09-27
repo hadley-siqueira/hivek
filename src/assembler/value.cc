@@ -1,4 +1,5 @@
 #include <map>
+#include <sstream>
 #include "value.h"
 
 std::map<std::string, int> regs_map = {
@@ -50,10 +51,19 @@ void Value::set_value(std::string value) {
 }
 
 int Value::to_int() {
+    int r = 0;
+    std::stringstream ss;
+
     switch (kind) {
     case VAL_REG:
-        return regs_map[value];
+        r = regs_map[value];
+        break;
+
+    case VAL_NUMBER:
+        ss << value;
+        ss >> r;
+        break;
     }
 
-    return 0;
+    return r;
 }

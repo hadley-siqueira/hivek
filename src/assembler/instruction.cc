@@ -32,6 +32,10 @@ void Instruction::write_to(BinaryOutput* value) {
     case CMD_INST_ADD:
         write_binary_type_i(value, F_ADD);
         break;
+
+    case CMD_INST_ADDI:
+        write_binary_type_ii(value, OP_ADDI);
+        break;
     }
 }
 
@@ -40,15 +44,30 @@ void Instruction::write_binary_type_i(BinaryOutput* value, int func) {
     value->append32(inst);
 }
 
-int Instruction::get_binary_type_i(int func) {
-    int inst = 0;
+void Instruction::write_binary_type_ii(BinaryOutput* value, int opcode) {
+    int inst = get_binary_type_ii(opcode);
+    value->append32(inst);
+}
 
-    inst = 1;
+int Instruction::get_binary_type_i(int func) {
+    int inst = 1;
+
     inst = inst << 7 | OP_REG_REG;
     inst = inst << 5 | src1->to_int();
     inst = inst << 5 | src2->to_int();;
     inst = inst << 5 | dest->to_int();
     inst = inst << 9 | func;
+
+    return inst;
+}
+
+int Instruction::get_binary_type_ii(int func) {
+    int inst = 1;
+
+    inst = inst << 7 | func;
+    inst = inst << 5 | dest->to_int();
+    inst = inst << 5 | src1->to_int();;
+    inst = inst << 14 | src2->to_int() & 0x3fff;
 
     return inst;
 }

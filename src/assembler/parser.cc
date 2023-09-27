@@ -146,7 +146,10 @@ Command* Parser::parse_instruction_reg_reg_immd(int kind) {
     inst->set_src1(parse_register());
     expect(TK_COMMA);
 
-    inst->set_src2(parse_register());
+    if (match(TK_NUMBER)) {
+        inst->set_src2(new Value(VAL_NUMBER, matched.get_lexeme()));
+    }
+
     return inst;
 }
 
