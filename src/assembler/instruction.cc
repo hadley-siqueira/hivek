@@ -2,18 +2,27 @@
 
 Instruction::Instruction(int kind) {
     this->kind = kind;
+    dest = nullptr;
+    src1 = nullptr;
+    src2 = nullptr;
 }
 
-void Instruction::set_r_dest(int r) {
-    r_dest = r;
+Instruction::~Instruction() {
+    delete dest;
+    delete src1;
+    delete src2;
 }
 
-void Instruction::set_r_src1(int r) {
-    r_src1 = r;
+void Instruction::set_dest(Value* r) {
+    dest = r;
 }
 
-void Instruction::set_r_src2(int r) {
-    r_src2 = r;
+void Instruction::set_src1(Value* r) {
+    src1 = r;
+}
+
+void Instruction::set_src2(Value* r) {
+    src2 = r;
 }
 
 void Instruction::write_to(BinaryOutput* value) {
@@ -36,9 +45,9 @@ int Instruction::get_binary_type_i(int func) {
 
     inst = 1;
     inst = inst << 7 | OP_REG_REG;
-    inst = inst << 5 | r_src1;
-    inst = inst << 5 | r_src2;
-    inst = inst << 5 | r_dest;
+    inst = inst << 5 | src1->to_int();
+    inst = inst << 5 | src2->to_int();;
+    inst = inst << 5 | dest->to_int();
     inst = inst << 9 | func;
 
     return inst;

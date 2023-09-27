@@ -16,6 +16,7 @@ Parser::Parser() {
     }
 
     opcodes_map["add"] = CMD_INST_ADD;
+    opcodes_map["addi"] = CMD_INST_ADDI;
 }
 
 Module* Parser::parse(std::string path) {
@@ -116,6 +117,8 @@ Command* Parser::parse_label_or_instruction() {
 Command* Parser::parse_instruction(std::string op) {
     if (op == "add") {
         return parse_instruction_reg_reg_reg(opcodes_map[op]);
+    } else if (op == "addi") {
+        return parse_instruction_reg_reg_immd(opcodes_map[op]);
     }
 
     return nullptr;
@@ -124,18 +127,31 @@ Command* Parser::parse_instruction(std::string op) {
 Command* Parser::parse_instruction_reg_reg_reg(int kind) {
     Instruction* inst = new Instruction(kind);
 
-    inst->set_r_dest(parse_register());
+    inst->set_dest(parse_register());
     expect(TK_COMMA);
 
-    inst->set_r_src1(parse_register());
+    inst->set_src1(parse_register());
     expect(TK_COMMA);
 
-    inst->set_r_src2(parse_register());
+    inst->set_src2(parse_register());
     return inst;
 }
 
-int Parser::parse_register() {
-    int r = 0;
+Command* Parser::parse_instruction_reg_reg_immd(int kind) {
+    Instruction* inst = new Instruction(kind);
+
+    inst->set_dest(parse_register());
+    expect(TK_COMMA);
+
+    inst->set_src1(parse_register());
+    expect(TK_COMMA);
+
+    inst->set_src2(parse_register());
+    return inst;
+}
+
+Value* Parser::parse_register() {
+    Value* r = nullptr;
 
     if (lookahead(TK_ID)) {
         parse_id();
@@ -143,7 +159,7 @@ int Parser::parse_register() {
         expect(TK_NUMBER);
 
         if (regs_map.count(matched.get_lexeme()) > 0) {
-            r = regs_map[matched.get_lexeme()];
+            r = new Value(VAL_REG, matched.get_lexeme());
         }
     }
 

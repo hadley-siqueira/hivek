@@ -8,6 +8,7 @@ enum CommandKind {
     CMD_INT_DIRECTIVE,
 
     CMD_INST_ADD,
+    CMD_INST_ADDI,
 };
 
 class Command {

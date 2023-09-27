@@ -2,11 +2,13 @@
 #define INSTRUCTION_H
 
 #include "command.h"
+#include "value.h"
 #include "../opcodes/opcodes.h"
 
 class Instruction : public Command {
 public:
     Instruction(int kind);
+    ~Instruction();
 
 public:
     void write_to(BinaryOutput* value);
@@ -14,14 +16,14 @@ public:
     int get_binary_type_i(int func);
 
 public:
-    void set_r_dest(int r);
-    void set_r_src1(int r);
-    void set_r_src2(int r);
+    void set_dest(Value* r);
+    void set_src1(Value* r);
+    void set_src2(Value* r);
 
 private:
-    char r_dest;
-    char r_src1;
-    char r_src2;
+    Value* dest;
+    Value* src1;
+    Value* src2;
 };
 
 #endif
