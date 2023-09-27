@@ -14,3 +14,10 @@ void BinaryOutput::write(std::string path) {
 void BinaryOutput::append(uint8_t value) {
     bytes.push_back(value);
 }
+
+void BinaryOutput::append32(uint32_t value) {
+    append((value >> 24) & 0xff);
+    append((value >> 16) & 0xff);
+    append((value >> 8) & 0xff);
+    append(value & 0xff);
+}

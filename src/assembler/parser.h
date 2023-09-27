@@ -9,6 +9,9 @@
 
 class Parser {
 public:
+    Parser();
+
+public:
     Module* parse(std::string path);
 
 private:
@@ -19,7 +22,8 @@ private:
     Command* parse_int_directive();
     Command* parse_label_or_instruction();
     Command* parse_instruction(std::string op);
-    Command* parse_instruction_reg_reg_reg(std::string op);
+    Command* parse_instruction_reg_reg_reg(int kind);
+    int parse_register();
     void parse_string_directive();
 
     Token parse_byte_literal();
@@ -38,6 +42,8 @@ private:
 
 private:
     std::vector<Token> tokens;
+    std::map<std::string, int> regs_map;
+    std::map<std::string, int> opcodes_map;
     Token matched;
     int idx;
 };

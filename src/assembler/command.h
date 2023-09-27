@@ -6,6 +6,8 @@
 enum CommandKind {
     CMD_BYTE_DIRECTIVE,
     CMD_INT_DIRECTIVE,
+
+    CMD_INST_ADD,
 };
 
 class Command {

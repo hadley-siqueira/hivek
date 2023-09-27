@@ -6,6 +6,17 @@
 #include "module.h"
 #include "data_directive.h"
 #include "label.h"
+#include "instruction.h"
+
+Parser::Parser() {
+    for (int i = 0; i < 32; ++i) {
+        std::stringstream s;
+        s << i;
+        regs_map[s.str()] = i;
+    }
+
+    opcodes_map["add"] = CMD_INST_ADD;
+}
 
 Module* Parser::parse(std::string path) {
     Scanner sc;
@@ -104,14 +115,39 @@ Command* Parser::parse_label_or_instruction() {
 
 Command* Parser::parse_instruction(std::string op) {
     if (op == "add") {
-        return parse_instruction_reg_reg_reg("add");
+        return parse_instruction_reg_reg_reg(opcodes_map[op]);
     }
 
     return nullptr;
 }
 
-Command* parse_instruction_reg_reg_reg(std::string op) {
-    return nullptr;
+Command* Parser::parse_instruction_reg_reg_reg(int kind) {
+    Instruction* inst = new Instruction(kind);
+
+    inst->set_r_dest(parse_register());
+    expect(TK_COMMA);
+
+    inst->set_r_src1(parse_register());
+    expect(TK_COMMA);
+
+    inst->set_r_src2(parse_register());
+    return inst;
+}
+
+int Parser::parse_register() {
+    int r = 0;
+
+    if (lookahead(TK_ID)) {
+        parse_id();
+    } else if (match(TK_MODULO)) {
+        expect(TK_NUMBER);
+
+        if (regs_map.count(matched.get_lexeme()) > 0) {
+            r = regs_map[matched.get_lexeme()];
+        }
+    }
+
+    return r;
 }
 
 std::string Parser::parse_id() {
