@@ -1,5 +1,5 @@
 std.io.File#init(int):
-    add %0, %1, %2
+    add %1, %0, %0
     add %7, %7, %7
     addi %1, %1, 7
 
