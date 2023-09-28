@@ -18,6 +18,11 @@ Parser::Parser() {
 
     opcodes_map["add"] = CMD_INST_ADD;
     opcodes_map["sub"] = CMD_INST_SUB;
+
+    opcodes_map["and"] = CMD_INST_AND;
+    opcodes_map["or"] = CMD_INST_OR;
+    opcodes_map["xor"] = CMD_INST_XOR;
+
     opcodes_map["addi"] = CMD_INST_ADDI;
 }
 
@@ -132,11 +137,15 @@ Command* Parser::parse_label_or_instruction() {
 }
 
 Command* Parser::parse_instruction(std::string op) {
-    if (op == "add") {
+    switch (opcodes_map[op]) {
+    case CMD_INST_ADD:
+    case CMD_INST_SUB:
+    case CMD_INST_AND:
+    case CMD_INST_OR:
+    case CMD_INST_XOR:
         return parse_instruction_reg_reg_reg(opcodes_map[op]);
-    } else if (op == "sub") {
-        return parse_instruction_reg_reg_reg(opcodes_map[op]);
-    } else if (op == "addi") {
+
+    case CMD_INST_ADDI:
         return parse_instruction_reg_reg_immd(opcodes_map[op]);
     }
 

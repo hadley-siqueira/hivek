@@ -37,6 +37,18 @@ void Instruction::write_to(BinaryOutput* value) {
         write_binary_type_i(value, F_SUB);
         break;
 
+    case CMD_INST_AND:
+        write_binary_type_i(value, F_AND);
+        break;
+
+    case CMD_INST_OR:
+        write_binary_type_i(value, F_OR);
+        break;
+
+    case CMD_INST_XOR:
+        write_binary_type_i(value, F_XOR);
+        break;
+
     case CMD_INST_ADDI:
         write_binary_type_ii(value, OP_ADDI);
         break;

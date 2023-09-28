@@ -10,6 +10,11 @@ enum CommandKind {
 
     CMD_INST_ADD,
     CMD_INST_SUB,
+
+    CMD_INST_AND,
+    CMD_INST_OR,
+    CMD_INST_XOR,
+
     CMD_INST_ADDI,
 };
 
