@@ -9,6 +9,7 @@ enum CommandKind {
     CMD_ALIGN_DIRECTIVE,
 
     CMD_INST_ADD,
+    CMD_INST_SUB,
     CMD_INST_ADDI,
 };
 

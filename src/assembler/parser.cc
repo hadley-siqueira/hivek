@@ -17,6 +17,7 @@ Parser::Parser() {
     }
 
     opcodes_map["add"] = CMD_INST_ADD;
+    opcodes_map["sub"] = CMD_INST_SUB;
     opcodes_map["addi"] = CMD_INST_ADDI;
 }
 
@@ -132,6 +133,8 @@ Command* Parser::parse_label_or_instruction() {
 
 Command* Parser::parse_instruction(std::string op) {
     if (op == "add") {
+        return parse_instruction_reg_reg_reg(opcodes_map[op]);
+    } else if (op == "sub") {
         return parse_instruction_reg_reg_reg(opcodes_map[op]);
     } else if (op == "addi") {
         return parse_instruction_reg_reg_immd(opcodes_map[op]);
