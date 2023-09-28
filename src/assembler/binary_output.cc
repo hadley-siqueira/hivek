@@ -11,6 +11,10 @@ void BinaryOutput::write(std::string path) {
     file.close();
 }
 
+int BinaryOutput::size() {
+    return bytes.size();
+}
+
 void BinaryOutput::append(uint8_t value) {
     bytes.push_back(value);
 }

@@ -5,6 +5,7 @@
 #include "scanner.h"
 #include "module.h"
 #include "data_directive.h"
+#include "align_directive.h"
 #include "label.h"
 #include "instruction.h"
 
@@ -58,9 +59,24 @@ Command* Parser::parse_directive() {
         inst = parse_int_directive();
     } else if (lookahead("string")) {
         parse_string_directive();
+    } else if (lookahead("align")) {
+        inst = parse_align_directive();
     }
 
     return inst;
+}
+
+Command* Parser::parse_align_directive() {
+    std::stringstream ss;
+    int value;
+
+    expect("align");
+    expect(TK_NUMBER);
+
+    ss << matched.get_lexeme();
+    ss >> value;
+
+    return new AlignDirective(value);
 }
 
 Command* Parser::parse_byte_directive() {

@@ -21,6 +21,7 @@ private:
     Command* parse_directive();
     Command* parse_byte_directive();
     Command* parse_int_directive();
+    Command* parse_align_directive();
     Command* parse_label_or_instruction();
     Command* parse_instruction(std::string op);
     Command* parse_instruction_reg_reg_reg(int kind);
