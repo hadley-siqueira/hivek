@@ -15,6 +15,7 @@ public:
     void write_to(BinaryOutput* value);
     void write_byte_directive(BinaryOutput* value);
     void write_int_directive(BinaryOutput* value);
+    int get_size();
 
 private:
     std::vector<Token> values;

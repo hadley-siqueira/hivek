@@ -13,6 +13,7 @@ void Assembler::read(std::string path) {
 void Assembler::generate_output(std::string path) {
     BinaryOutput out;
 
+    mod->first_pass();
     mod->write_to(&out);
     out.write(path);
 }

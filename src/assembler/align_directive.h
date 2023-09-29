@@ -10,6 +10,7 @@ public:
 
 public:
     void set_value(int v);
+    int get_value();
     void write_to(BinaryOutput* value);
 
 private:

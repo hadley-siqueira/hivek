@@ -15,6 +15,7 @@ public:
 public:
     void add_command(Command* cmd);
     void write_to(BinaryOutput* value);
+    void first_pass();
     void calculate_offsets();
 
 private:

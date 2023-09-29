@@ -8,3 +8,7 @@ Label::Label(std::string value) {
 void Label::set_offset(int value) {
     offset = value;
 }
+
+std::string Label::get_value() {
+    return value;
+}

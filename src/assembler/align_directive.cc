@@ -19,3 +19,7 @@ void AlignDirective::write_to(BinaryOutput* value) {
         value->append(0);
     }
 }
+
+int AlignDirective::get_value() {
+    return value;
+}

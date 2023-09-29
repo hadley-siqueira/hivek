@@ -1,5 +1,6 @@
 #include <iostream>
 #include "section.h"
+#include "align_directive.h"
 
 Section::Section(std::string name) {
     this->name = name;
@@ -15,6 +16,10 @@ void Section::write_to(BinaryOutput* value) {
     }
 }
 
+void Section::first_pass() {
+    calculate_offsets();
+}
+
 void Section::calculate_offsets() {
     int offset = 0;
 
@@ -24,7 +29,14 @@ void Section::calculate_offsets() {
         if (cmd->get_kind() == CMD_LABEL) {
             Label* label = (Label*) cmd;
             label->set_offset(offset);
-        } 
+            std::cout << label->get_value() << ":" << offset << '\n';
+        } else if (cmd->get_kind() == CMD_ALIGN_DIRECTIVE) {
+            AlignDirective* align = (AlignDirective*) cmd;
+
+            while (offset % align->get_value() != 0) {
+                offset += 1;
+            }
+        }
 
         offset += cmd->get_size();
     }

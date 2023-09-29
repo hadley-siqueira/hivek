@@ -25,3 +25,10 @@ void Module::write_to(BinaryOutput* value) {
         section->write_to(output);
     }
 }
+
+void Module::first_pass() {
+    for (auto it = sections.begin(); it != sections.end(); ++it) {
+        Section* section = it->second;
+        section->first_pass();
+    }
+}

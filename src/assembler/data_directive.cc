@@ -46,3 +46,16 @@ void DataDirective::write_int_directive(BinaryOutput* value) {
         value->append((v >> 0) & 0xff);
     }
 }
+
+int DataDirective::get_size() {
+    switch (kind) {
+    case CMD_BYTE_DIRECTIVE:
+        return values.size() * 1;
+
+    case CMD_INT_DIRECTIVE:
+        return values.size() * 4;
+    }
+
+    return 0;
+}
+
