@@ -6,6 +6,7 @@
 
 #include "command.h"
 #include "binary_output.h"
+#include "label.h"
 
 class Section {
 public:
@@ -14,6 +15,7 @@ public:
 public:
     void add_command(Command* cmd);
     void write_to(BinaryOutput* value);
+    void calculate_offsets();
 
 private:
     std::string name;

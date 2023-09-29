@@ -6,6 +6,11 @@ std.io.File#init(int):
     xor %1, %0, %0
     add %7, %7, %7
     addi %1, %1, 7
+L0:
+
+    beq %1, %1, 4
+    beq %1, %1, -4
+    beq %1, %1, L0
 
 std.io.println(std.io.String):
     .int 1024, 19114957

@@ -63,6 +63,9 @@ int Value::to_int() {
         ss << value;
         ss >> r;
         break;
+
+    case VAL_ID:
+        break;
     }
 
     return r;

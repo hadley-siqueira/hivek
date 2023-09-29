@@ -17,6 +17,7 @@ typedef enum TokenKind {
     TK_GT,
     TK_LPAREN,
     TK_RPAREN,
+    TK_MINUS,
 
     TK_EOF
 } TokenKind;

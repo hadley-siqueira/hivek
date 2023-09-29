@@ -16,6 +16,7 @@ public:
     void write_binary_type_ii(BinaryOutput* value, int opcode);
     int get_binary_type_i(int func);
     int get_binary_type_ii(int opcode);
+    int get_size();
 
 public:
     void set_dest(Value* r);

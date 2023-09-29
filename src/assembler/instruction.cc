@@ -49,6 +49,10 @@ void Instruction::write_to(BinaryOutput* value) {
         write_binary_type_i(value, F_XOR);
         break;
 
+    case CMD_INST_BEQ:
+        write_binary_type_ii(value, OP_BEQ);
+        break;
+
     case CMD_INST_ADDI:
         write_binary_type_ii(value, OP_ADDI);
         break;
@@ -82,8 +86,12 @@ int Instruction::get_binary_type_ii(int func) {
 
     inst = inst << 7 | func;
     inst = inst << 5 | dest->to_int();
-    inst = inst << 5 | src1->to_int();;
+    inst = inst << 5 | src1->to_int();
     inst = inst << 14 | src2->to_int() & 0x3fff;
 
     return inst;
+}
+
+int Instruction::get_size() {
+    return 4;
 }

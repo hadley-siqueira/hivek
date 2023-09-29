@@ -15,6 +15,7 @@ Scanner::Scanner() {
     tokens_map[">"] = TK_GT;
     tokens_map["("] = TK_LPAREN;
     tokens_map[")"] = TK_RPAREN;
+    tokens_map["-"] = TK_MINUS;
 
     tokens_map["EOF"] = TK_EOF;
 }
@@ -159,7 +160,8 @@ bool Scanner::is_alphanum(char c) {
 
 bool Scanner::is_punct(char c) {
     return c == ',' || c == '%' || c == ':' || c == ';' || 
-           c == '.' || c == '(' || c == ')' || c == '#';
+           c == '.' || c == '(' || c == ')' || c == '#' ||
+           c == '-';
 }
 
 bool Scanner::is_whitespace(char c) {

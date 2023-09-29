@@ -5,8 +5,7 @@
 
 enum ValueKind {
     VAL_REG,
-    VAL_LABEL,
-    VAL_CONST,
+    VAL_ID,
     VAL_NUMBER
 };
 

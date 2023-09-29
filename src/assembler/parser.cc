@@ -23,6 +23,8 @@ Parser::Parser() {
     opcodes_map["or"] = CMD_INST_OR;
     opcodes_map["xor"] = CMD_INST_XOR;
 
+    opcodes_map["beq"] = CMD_INST_BEQ;
+
     opcodes_map["addi"] = CMD_INST_ADDI;
 }
 
@@ -145,6 +147,9 @@ Command* Parser::parse_instruction(std::string op) {
     case CMD_INST_XOR:
         return parse_instruction_reg_reg_reg(opcodes_map[op]);
 
+    case CMD_INST_BEQ:
+        return parse_instruction_reg_reg_immd(opcodes_map[op]);
+
     case CMD_INST_ADDI:
         return parse_instruction_reg_reg_immd(opcodes_map[op]);
     }
@@ -155,43 +160,39 @@ Command* Parser::parse_instruction(std::string op) {
 Command* Parser::parse_instruction_reg_reg_reg(int kind) {
     Instruction* inst = new Instruction(kind);
 
-    inst->set_dest(parse_register());
+    inst->set_dest(parse_operand());
     expect(TK_COMMA);
 
-    inst->set_src1(parse_register());
+    inst->set_src1(parse_operand());
     expect(TK_COMMA);
 
-    inst->set_src2(parse_register());
+    inst->set_src2(parse_operand());
     return inst;
 }
 
 Command* Parser::parse_instruction_reg_reg_immd(int kind) {
-    Instruction* inst = new Instruction(kind);
-
-    inst->set_dest(parse_register());
-    expect(TK_COMMA);
-
-    inst->set_src1(parse_register());
-    expect(TK_COMMA);
-
-    if (match(TK_NUMBER)) {
-        inst->set_src2(new Value(VAL_NUMBER, matched.get_lexeme()));
-    }
-
-    return inst;
+    return parse_instruction_reg_reg_reg(kind);
 }
 
-Value* Parser::parse_register() {
+Value* Parser::parse_operand() {
     Value* r = nullptr;
 
     if (lookahead(TK_ID)) {
-        parse_id();
+        r = new Value(VAL_ID, parse_id());
     } else if (match(TK_MODULO)) {
         expect(TK_NUMBER);
 
         if (regs_map.count(matched.get_lexeme()) > 0) {
             r = new Value(VAL_REG, matched.get_lexeme());
         }
+    } else if (match(TK_NUMBER)) {
+        r = new Value(VAL_NUMBER, matched.get_lexeme());
+    } else if (match(TK_MINUS)) {
+        std::stringstream ss;
+        expect(TK_NUMBER);
+
+        ss << '-' << matched.get_lexeme();
+        r = new Value(VAL_NUMBER, ss.str());
     }
 
     return r;
