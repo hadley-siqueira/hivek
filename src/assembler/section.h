@@ -17,6 +17,7 @@ public:
     void write_to(BinaryOutput* value);
     void first_pass();
     void calculate_offsets();
+    std::string get_name();
 
 private:
     std::string name;

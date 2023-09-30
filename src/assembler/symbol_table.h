@@ -11,7 +11,8 @@ public:
     SymbolTable();
     
 public:
-    void define_label(Label* label);
+    void define_label(Section* section, Label* label);
+    Symbol* resolve(std::string id);
 
 private:
     std::map<std::string, Symbol*> symbols;
@@ -19,5 +20,6 @@ private:
     int seq;
 };
 
+SymbolTable* get_symbol_table();
 
 #endif

@@ -14,8 +14,10 @@ public:
     void write_to(BinaryOutput* value);
     void write_binary_type_i(BinaryOutput* value, int func);
     void write_binary_type_ii(BinaryOutput* value, int opcode);
+    void write_binary_type_iii(BinaryOutput* value, int opcode);
     int get_binary_type_i(int func);
     int get_binary_type_ii(int opcode);
+    int get_binary_type_iii(int opcode);
     int get_size();
 
 public:

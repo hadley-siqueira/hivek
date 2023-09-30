@@ -27,9 +27,12 @@ public:
     int get_kind();
     virtual void write_to(BinaryOutput* value);
     virtual int get_size();
+    int get_offset();
+    void set_offset(int offset);
 
 protected:
     int kind;
+    int offset;
 };
 
 #endif

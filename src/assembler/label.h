@@ -9,12 +9,10 @@ public:
     Label(std::string value);
 
 public:
-    void set_offset(int value);
     std::string get_value();
 
 private:
     std::string value;
-    int offset;
 };
 
 #endif

@@ -17,6 +17,7 @@ public:
 public:
     void set_value(std::string value);
     int to_int();
+    int get_kind();
 
 private:
     int kind;

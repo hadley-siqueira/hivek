@@ -50,7 +50,7 @@ void Instruction::write_to(BinaryOutput* value) {
         break;
 
     case CMD_INST_BEQ:
-        write_binary_type_ii(value, OP_BEQ);
+        write_binary_type_iii(value, OP_BEQ);
         break;
 
     case CMD_INST_ADDI:
@@ -66,6 +66,11 @@ void Instruction::write_binary_type_i(BinaryOutput* value, int func) {
 
 void Instruction::write_binary_type_ii(BinaryOutput* value, int opcode) {
     int inst = get_binary_type_ii(opcode);
+    value->append32(inst);
+}
+
+void Instruction::write_binary_type_iii(BinaryOutput* value, int opcode) {
+    int inst = get_binary_type_iii(opcode);
     value->append32(inst);
 }
 
@@ -88,6 +93,26 @@ int Instruction::get_binary_type_ii(int func) {
     inst = inst << 5 | dest->to_int();
     inst = inst << 5 | src1->to_int();
     inst = inst << 14 | src2->to_int() & 0x3fff;
+
+    return inst;
+}
+
+int Instruction::get_binary_type_iii(int func) {
+    int inst = 1;
+
+    inst = inst << 7 | func;
+    inst = inst << 5 | dest->to_int();
+    inst = inst << 5 | src1->to_int();
+
+    if (src2->get_kind() == VAL_NUMBER) {
+        int addr = src2->to_int();
+        addr = addr >> 1;
+        inst = inst << 14 | addr & 0x3fff;
+    } else if (src2->get_kind() == VAL_ID) {
+        int addr = src2->to_int() - offset;
+        addr = addr >> 1;
+        inst = inst << 14 | addr & 0x3fff;
+    }
 
     return inst;
 }

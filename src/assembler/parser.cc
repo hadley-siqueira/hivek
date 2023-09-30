@@ -8,6 +8,7 @@
 #include "align_directive.h"
 #include "label.h"
 #include "instruction.h"
+#include "symbol_table.h"
 
 Parser::Parser() {
     for (int i = 0; i < 32; ++i) {
@@ -42,7 +43,7 @@ Module* Parser::parse(std::string path) {
 }
 
 Module* Parser::parse_module() {
-    Module* mod = new Module();
+    mod = new Module();
 
     while (true) {
         if (lookahead(TK_DOT)) {
@@ -132,7 +133,11 @@ Command* Parser::parse_label_or_instruction() {
     std::string id = parse_id();
 
     if (match(TK_COLON)) {
-        return new Label(id);
+        Label* label = new Label(id);
+        Section* section = mod->get_current_section();
+
+        get_symbol_table()->define_label(section, label);
+        return label;
     } 
 
     return parse_instruction(id);

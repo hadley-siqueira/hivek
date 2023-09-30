@@ -47,6 +47,7 @@ private:
     std::vector<Token> tokens;
     std::map<std::string, int> regs_map;
     std::map<std::string, int> opcodes_map;
+    Module* mod;
     Token matched;
     int idx;
 };

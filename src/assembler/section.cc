@@ -26,9 +26,10 @@ void Section::calculate_offsets() {
     for (int i = 0; i < commands.size(); ++i) {
         Command* cmd = commands[i];
 
+        cmd->set_offset(offset);
+
         if (cmd->get_kind() == CMD_LABEL) {
             Label* label = (Label*) cmd;
-            label->set_offset(offset);
             std::cout << label->get_value() << ":" << offset << '\n';
         } else if (cmd->get_kind() == CMD_ALIGN_DIRECTIVE) {
             AlignDirective* align = (AlignDirective*) cmd;
@@ -40,4 +41,8 @@ void Section::calculate_offsets() {
 
         offset += cmd->get_size();
     }
+}
+
+std::string Section::get_name() {
+    return name;
 }

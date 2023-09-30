@@ -1,6 +1,7 @@
 #include <map>
 #include <sstream>
 #include "value.h"
+#include "symbol_table.h"
 
 std::map<std::string, int> regs_map = {
     {"0", 0},
@@ -53,6 +54,8 @@ void Value::set_value(std::string value) {
 int Value::to_int() {
     int r = 0;
     std::stringstream ss;
+    Symbol* sym;
+    Label* label;
 
     switch (kind) {
     case VAL_REG:
@@ -65,8 +68,20 @@ int Value::to_int() {
         break;
 
     case VAL_ID:
+        SymbolTable* symtab = get_symbol_table();
+        sym = symtab->resolve(value);
+
+        if (sym && sym->get_kind() == SYM_LABEL) {
+            label = (Label*) sym->get_descriptor();
+            return label->get_offset();
+        }
+
         break;
     }
 
     return r;
+}
+
+int Value::get_kind() {
+    return kind;
 }

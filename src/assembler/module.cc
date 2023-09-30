@@ -32,3 +32,7 @@ void Module::first_pass() {
         section->first_pass();
     }
 }
+
+Section* Module::get_current_section() {
+    return sections[current_section];
+}
