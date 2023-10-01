@@ -19,6 +19,15 @@ enum CommandKind {
 
     CMD_INST_BEQ,
 
+    CMD_INST_LD,
+    CMD_INST_LW,
+    CMD_INST_LWU,
+
+    CMD_INST_SD,
+    CMD_INST_SW,
+    CMD_INST_SH,
+    CMD_INST_SB,
+
     CMD_INST_ADDI,
 };
 

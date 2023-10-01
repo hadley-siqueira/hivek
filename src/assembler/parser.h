@@ -26,6 +26,7 @@ private:
     Command* parse_instruction(std::string op);
     Command* parse_instruction_reg_reg_reg(int kind);
     Command* parse_instruction_reg_reg_immd(int kind);
+    Command* parse_instruction_mem(int kind);
     Value* parse_operand();
     void parse_string_directive();
 

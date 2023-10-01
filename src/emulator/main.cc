@@ -12,6 +12,7 @@ int main(int argc, char* argv[]) {
     }
 
     emulator.dump_registers();
+    emulator.dump_memory();
 
     return 0;
 }

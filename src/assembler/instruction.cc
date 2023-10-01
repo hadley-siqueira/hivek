@@ -54,6 +54,14 @@ void Instruction::write_to(BinaryOutput* value) {
         write_binary_type_iii(value, OP_BEQ);
         break;
 
+    case CMD_INST_LD:
+        write_binary_type_ii(value, OP_LD);
+        break;
+
+    case CMD_INST_SD:
+        write_binary_type_ii(value, OP_SD);
+        break;
+
     case CMD_INST_ADDI:
         write_binary_type_ii(value, OP_ADDI);
         break;

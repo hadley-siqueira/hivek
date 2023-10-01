@@ -26,6 +26,9 @@ Parser::Parser() {
 
     opcodes_map["beq"] = CMD_INST_BEQ;
 
+    opcodes_map["ld"] = CMD_INST_LD;
+    opcodes_map["sd"] = CMD_INST_SD;
+
     opcodes_map["addi"] = CMD_INST_ADDI;
 }
 
@@ -155,6 +158,12 @@ Command* Parser::parse_instruction(std::string op) {
     case CMD_INST_BEQ:
         return parse_instruction_reg_reg_immd(opcodes_map[op]);
 
+    case CMD_INST_LD:
+        return parse_instruction_mem(opcodes_map[op]);
+
+    case CMD_INST_SD:
+        return parse_instruction_mem(opcodes_map[op]);
+
     case CMD_INST_ADDI:
         return parse_instruction_reg_reg_immd(opcodes_map[op]);
     }
@@ -201,6 +210,21 @@ Value* Parser::parse_operand() {
     }
 
     return r;
+}
+
+Command* Parser::parse_instruction_mem(int kind) {
+    Instruction* inst = new Instruction(kind);
+
+    inst->set_dest(parse_operand());
+    expect(TK_COMMA);
+
+    inst->set_src2(parse_operand());
+    expect(TK_LPAREN);
+
+    inst->set_src1(parse_operand());
+    expect(TK_RPAREN);
+
+    return inst;
 }
 
 std::string Parser::parse_id() {

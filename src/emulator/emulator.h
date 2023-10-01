@@ -29,6 +29,8 @@ class Emulator {
 
         uint64_t read_u64(uint64_t addr);
 
+        void write64(uint64_t addr, uint64_t value);
+
     private:
         std::string hex64(uint64_t value);
         std::string hex8(uint64_t value);

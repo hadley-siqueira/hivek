@@ -27,10 +27,15 @@ void Emulator::read_bin(std::string path) {
         tmp.push_back(c & 0x0ff);
     }
 
+    for (int i = 0; i < 128 * 8; ++i) {
+        tmp.push_back(0);
+    }
+
     fs.close();
     mem = new uint8_t[tmp.size()];
     mem_size = tmp.size();
     ip = (uint64_t) mem;
+    regs[31] = ip;
 
     for (int i = 0; i < tmp.size(); ++i) {
         mem[i] = tmp[i];
@@ -191,7 +196,12 @@ void Emulator::tick() {
             break;
 
         case OP_LD:
-            regs[ra] = read_u64(regs[rb] + immd14);
+            regs[ra] = read_u64(regs[rb] + immd14_64);
+            ip += size;
+            break;
+
+        case OP_SD:
+            write64(regs[rb] + immd14, regs[ra]);
             ip += size;
             break;
 
@@ -250,6 +260,14 @@ uint64_t Emulator::read_u64(uint64_t addr) {
     value = (value << 8) | (ptr[7] & 0xff);
 
     return value;
+}
+
+void Emulator::write64(uint64_t addr, uint64_t value) {
+    uint8_t* ptr = (uint8_t*) addr;
+
+    for (int i = 0; i < 8; ++i) {
+        ptr[i] = (value >> (64 - (i + 1) * 8)) & 0xff;
+    }
 }
 
 std::string Emulator::hex64(uint64_t value) {
