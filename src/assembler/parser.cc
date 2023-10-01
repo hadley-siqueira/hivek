@@ -27,7 +27,11 @@ Parser::Parser() {
     opcodes_map["beq"] = CMD_INST_BEQ;
 
     opcodes_map["ld"] = CMD_INST_LD;
+    opcodes_map["lw"] = CMD_INST_LW;
+    opcodes_map["lwu"] = CMD_INST_LWU;
+
     opcodes_map["sd"] = CMD_INST_SD;
+    opcodes_map["sw"] = CMD_INST_SW;
 
     opcodes_map["addi"] = CMD_INST_ADDI;
 }
@@ -159,9 +163,12 @@ Command* Parser::parse_instruction(std::string op) {
         return parse_instruction_reg_reg_immd(opcodes_map[op]);
 
     case CMD_INST_LD:
+    case CMD_INST_LW:
+    case CMD_INST_LWU:
         return parse_instruction_mem(opcodes_map[op]);
 
     case CMD_INST_SD:
+    case CMD_INST_SW:
         return parse_instruction_mem(opcodes_map[op]);
 
     case CMD_INST_ADDI:

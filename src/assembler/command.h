@@ -22,6 +22,10 @@ enum CommandKind {
     CMD_INST_LD,
     CMD_INST_LW,
     CMD_INST_LWU,
+    CMD_INST_LH,
+    CMD_INST_LHU,
+    CMD_INST_LB,
+    CMD_INST_LBU,
 
     CMD_INST_SD,
     CMD_INST_SW,

@@ -7,7 +7,7 @@ int main(int argc, char* argv[]) {
     emulator.read_bin(argv[1]);
     emulator.dump_memory();
 
-    for (int i = 0; i < 50; ++i) {
+    for (int i = 0; i < 550; ++i) {
         emulator.tick();
     }
 

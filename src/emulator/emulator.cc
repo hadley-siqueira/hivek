@@ -200,8 +200,18 @@ void Emulator::tick() {
             ip += size;
             break;
 
+        case OP_LW:
+            regs[ra] = read_i32(regs[rb] + immd14_64);
+            ip += size;
+            break;
+
         case OP_SD:
-            write64(regs[rb] + immd14, regs[ra]);
+            write64(regs[rb] + immd14_64, regs[ra]);
+            ip += size;
+            break;
+
+        case OP_SW:
+            write32(regs[rb] + immd14_64, regs[ra]);
             ip += size;
             break;
 
@@ -213,7 +223,6 @@ void Emulator::tick() {
             }
 
             break;
-            
         }
     }
 }
@@ -267,6 +276,14 @@ void Emulator::write64(uint64_t addr, uint64_t value) {
 
     for (int i = 0; i < 8; ++i) {
         ptr[i] = (value >> (64 - (i + 1) * 8)) & 0xff;
+    }
+}
+
+void Emulator::write32(uint64_t addr, uint64_t value) {
+    uint8_t* ptr = (uint8_t*) addr;
+
+    for (int i = 0; i < 4; ++i) {
+        ptr[i] = (value >> (32 - (i + 1) * 8)) & 0xff;
     }
 }
 
