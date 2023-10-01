@@ -11,11 +11,12 @@ class Section;
 
 class Symbol {
 public:
-    Symbol(std::string name, Section* section, int offset, bool local, int seq);
+    Symbol(int kind, std::string name, Section* section, int offset, bool local, int seq);
 
 public:
     int get_kind();
     void* get_descriptor();
+    void set_descriptor(void* descriptor);
 
 private:
     int kind;

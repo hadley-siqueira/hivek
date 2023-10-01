@@ -30,7 +30,6 @@ void Section::calculate_offsets() {
 
         if (cmd->get_kind() == CMD_LABEL) {
             Label* label = (Label*) cmd;
-            std::cout << label->get_value() << ":" << offset << '\n';
         } else if (cmd->get_kind() == CMD_ALIGN_DIRECTIVE) {
             AlignDirective* align = (AlignDirective*) cmd;
 

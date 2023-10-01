@@ -1,3 +1,4 @@
+#include <iostream>
 #include "symbol_table.h"
 
 SymbolTable symbol_table;
@@ -9,7 +10,8 @@ SymbolTable::SymbolTable() {
 
 void SymbolTable::define_label(Section* section, Label* label) {
     std::string name = label->get_value();
-    Symbol* sym = new Symbol(name, section, label->get_offset(), true, seq);
+    Symbol* sym = new Symbol(SYM_LABEL, name, section, label->get_offset(), true, seq);
+    sym->set_descriptor(label);
     symbols[name] = sym;
     seq += 1;
 }

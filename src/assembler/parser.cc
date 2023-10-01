@@ -35,9 +35,9 @@ Module* Parser::parse(std::string path) {
     idx = 0;
     tokens = sc.read(path);
 
-    for (int i = 0; i < tokens.size(); ++i) {
-        std::cout << tokens[i].to_str() << '\n';
-    }
+    // for (int i = 0; i < tokens.size(); ++i) {
+    //     std::cout << tokens[i].to_str() << '\n';
+    // }
 
     return parse_module();
 }

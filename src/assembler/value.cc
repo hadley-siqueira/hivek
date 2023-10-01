@@ -1,5 +1,6 @@
 #include <map>
 #include <sstream>
+#include <iostream>
 #include "value.h"
 #include "symbol_table.h"
 
@@ -74,7 +75,7 @@ int Value::to_int() {
         if (sym && sym->get_kind() == SYM_LABEL) {
             label = (Label*) sym->get_descriptor();
             return label->get_offset();
-        }
+        } 
 
         break;
     }
